@@ -1,0 +1,60 @@
+import random
+
+grid = [
+    [1, 2, 3, 4, 5],
+    [2, 4, 6, 8, 4],
+    [3, 5, 9, 7, 3],
+    [1, 3, 8, 6, 2],
+    [2, 4, 5, 7, 10]
+]
+
+n = len(grid)
+k = 3
+
+def neighbors(state):
+    r, c = state
+    moves = [(1,0), (-1,0), (0,1), (0,-1)]
+
+    result = []
+
+    for dr, dc in moves:
+        nr, nc = r + dr, c + dc
+
+        if 0 <= nr < n and 0 <= nc < n:
+            result.append((nr, nc))
+
+    return result
+
+
+states = [
+    (random.randint(0, n-1), random.randint(0, n-1))
+    for _ in range(k)
+]
+
+for iteration in range(20):
+
+    print("\nIteration", iteration + 1)
+
+    all_states = []
+
+    for state in states:
+        all_states.append(state)
+        all_states.extend(neighbors(state))
+
+    states = sorted(
+        set(all_states),
+        key=lambda x: grid[x[0]][x[1]],
+        reverse=True
+    )[:k]
+
+    for state in states:
+        print(state, "Value:", grid[state[0]][state[1]])
+
+best = max(
+    states,
+    key=lambda x: grid[x[0]][x[1]]
+)
+
+print("\nLocal Beam Search Result")
+print("Best State:", best)
+print("Best Value:", grid[best[0]][best[1]])
