@@ -1,0 +1,23 @@
+graph = {
+    'A': [('B', 'C'), ('D',)],
+    'B': [('E',), ('F',)],
+    'C': [('G',)],
+    'D': [('H',)],
+}
+
+cost = {'E': 1, 'F': 1, 'G': 1, 'H': 1}
+
+def ao_star(node):
+    if node not in graph:
+        return cost[node]
+
+    options = []
+    for children in graph[node]:
+        total = sum(ao_star(c) for c in children)
+        options.append(total)
+
+    best = min(options)
+    print(node, "=", best)
+    return best
+
+print("Minimum Cost:", ao_star('A'))

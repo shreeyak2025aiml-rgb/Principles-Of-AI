@@ -1,0 +1,33 @@
+import heapq
+
+goal = "123456780"
+
+def h(s):
+    return sum(a != b and a != '0' for a, b in zip(s, goal))
+
+def greedy(start):
+    pq = [(h(start), start)]
+    visited = set()
+
+    while pq:
+        _, state = heapq.heappop(pq)
+
+        if state in visited:
+            continue
+        visited.add(state)
+
+        print(state[:3], state[3:6], state[6:])
+        
+        if state == goal:
+            print("Goal Reached!")
+            return
+
+        z = state.index('0')
+        for d in [-3, 3, -1, 1]:
+            n = z + d
+            if 0 <= n < 9 and not (z % 3 == 0 and d == -1) and not (z % 3 == 2 and d == 1):
+                x = list(state)
+                x[z], x[n] = x[n], x[z]
+                heapq.heappush(pq, (h(''.join(x)), ''.join(x)))
+
+greedy("123405786")

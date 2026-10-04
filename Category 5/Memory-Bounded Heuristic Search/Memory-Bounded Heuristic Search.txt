@@ -1,0 +1,45 @@
+goal = "123456780"
+
+def h(s):
+    return sum(a != b and a != '0' for a, b in zip(s, goal))
+
+def search(state, g, limit, path):
+    f = g + h(state)
+
+    if f > limit:
+        return f
+    if state == goal:
+        print("Solution:", path)
+        return True
+
+    z = state.index('0')
+    minimum = float('inf')
+
+    for d in [-3, 3, -1, 1]:
+        n = z + d
+
+        if 0 <= n < 9 and not (z % 3 == 0 and d == -1) and not (z % 3 == 2 and d == 1):
+            x = list(state)
+            x[z], x[n] = x[n], x[z]
+            ns = ''.join(x)
+
+            if ns not in path:
+                result = search(ns, g + 1, limit, path + [ns])
+
+                if result is True:
+                    return True
+                minimum = min(minimum, result)
+
+    return minimum
+
+def ida_star(start):
+    limit = h(start)
+
+    while True:
+        result = search(start, 0, limit, [start])
+
+        if result is True:
+            return
+        limit = result
+
+ida_star("123405786")
