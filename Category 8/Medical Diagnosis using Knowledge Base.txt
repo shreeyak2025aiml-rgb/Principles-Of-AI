@@ -1,0 +1,30 @@
+# Medical Diagnosis using Knowledge Base
+
+facts = ["fever", "cough", "headache"]
+
+rules = {
+    "flu": ["fever", "cough"],
+    "infection": ["fever", "headache"],
+    "consult_doctor": ["flu", "infection"]
+}
+
+# Forward Chaining
+for disease, symptoms in rules.items():
+    if all(s in facts for s in symptoms):
+        facts.append(disease)
+
+print("Known Facts:", facts)
+
+# Backward Chaining
+def backward(goal):
+    if goal in facts:
+        return True
+
+    if goal in rules:
+        return all(backward(s) for s in rules[goal])
+
+    return False
+
+
+print("Is flu detected?", backward("flu"))
+print("Should consult doctor?", backward("consult_doctor"))

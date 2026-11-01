@@ -1,0 +1,30 @@
+# Autonomous Vehicle using Knowledge Base
+
+facts = ["obstacle_detected", "vehicle_moving"]
+
+rules = {
+    "apply_brakes": ["obstacle_detected", "vehicle_moving"],
+    "stop_vehicle": ["apply_brakes"],
+    "check_sensor": ["sensor_error"]
+}
+
+# Forward Chaining
+for action, conditions in rules.items():
+    if all(c in facts for c in conditions):
+        facts.append(action)
+
+print("Vehicle Facts:", facts)
+
+# Backward Chaining
+def backward(goal):
+    if goal in facts:
+        return True
+
+    if goal in rules:
+        return all(backward(c) for c in rules[goal])
+
+    return False
+
+
+print("Apply brakes?", backward("apply_brakes"))
+print("Stop vehicle?", backward("stop_vehicle"))

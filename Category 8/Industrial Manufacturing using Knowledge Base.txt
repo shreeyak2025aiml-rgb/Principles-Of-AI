@@ -1,0 +1,30 @@
+# Industrial Manufacturing using Knowledge Base
+
+facts = ["high_temperature", "high_vibration"]
+
+rules = {
+    "machine_fault": ["high_temperature", "high_vibration"],
+    "stop_machine": ["machine_fault"],
+    "maintenance_required": ["machine_fault"]
+}
+
+# Forward Chaining
+for action, conditions in rules.items():
+    if all(c in facts for c in conditions):
+        facts.append(action)
+
+print("Machine Facts:", facts)
+
+# Backward Chaining
+def backward(goal):
+    if goal in facts:
+        return True
+
+    if goal in rules:
+        return all(backward(c) for c in rules[goal])
+
+    return False
+
+
+print("Is machine faulty?", backward("machine_fault"))
+print("Maintenance required?", backward("maintenance_required"))
