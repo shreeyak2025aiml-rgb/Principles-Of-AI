@@ -1,0 +1,46 @@
+# Map Coloring using Backtracking
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'C', 'D'],
+    'C': ['A', 'B', 'D'],
+    'D': ['B', 'C']
+}
+
+colors = ['Red', 'Green', 'Blue']
+result = {}
+
+
+def is_safe(region, color):
+    for neighbour in graph[region]:
+        if result.get(neighbour) == color:
+            return False
+    return True
+
+
+def solve(region_index=0):
+    regions = list(graph.keys())
+
+    if region_index == len(regions):
+        return True
+
+    region = regions[region_index]
+
+    for color in colors:
+        if is_safe(region, color):
+            result[region] = color
+
+            if solve(region_index + 1):
+                return True
+
+            del result[region]
+
+    return False
+
+
+if solve():
+    print("Map Coloring Solution:")
+    for region, color in result.items():
+        print(region, ":", color)
+else:
+    print("No solution exists")Category 7
