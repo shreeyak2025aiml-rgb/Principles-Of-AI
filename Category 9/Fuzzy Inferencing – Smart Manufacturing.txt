@@ -1,0 +1,20 @@
+# Fuzzy Logic - Smart Manufacturing
+
+vibration = 7
+
+if vibration < 3:
+    priority = 20
+elif vibration < 5:
+    priority = 40
+elif vibration < 8:
+    priority = 70
+else:
+    priority = 100
+
+print("Machine Vibration:", vibration)
+print("Maintenance Priority:", priority, "%")
+
+if priority >= 70:
+    print("Action: Schedule maintenance")
+else:
+    print("Action: Machine operating normally")

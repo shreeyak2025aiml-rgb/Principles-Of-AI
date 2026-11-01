@@ -1,0 +1,14 @@
+# Bayesian Reasoning - Electric Vehicle
+
+prior = 0.02
+warning_fault = 0.95
+warning_normal = 0.08
+
+numerator = prior * warning_fault
+
+denominator = numerator + (1-prior) * warning_normal
+
+posterior = numerator / denominator
+
+print("Probability of Battery Fault:",
+      round(posterior * 100, 2), "%")

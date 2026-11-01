@@ -1,0 +1,14 @@
+# Bayesian Reasoning - Medical Diagnosis
+
+prior = 0.10
+sensitivity = 0.90
+false_positive = 0.05
+
+numerator = sensitivity * prior
+
+denominator = numerator + false_positive * (1-prior)
+
+posterior = numerator / denominator
+
+print("Probability of Flu:",
+      round(posterior * 100, 2), "%")

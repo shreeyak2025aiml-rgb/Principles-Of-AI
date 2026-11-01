@@ -1,0 +1,20 @@
+# Fuzzy Logic - Electric Vehicle
+
+temperature = 42
+
+if temperature < 30:
+    cooling = 0
+elif temperature < 40:
+    cooling = 40
+elif temperature < 50:
+    cooling = 70
+else:
+    cooling = 100
+
+print("Battery Temperature:", temperature, "C")
+print("Cooling Requirement:", cooling, "%")
+
+if cooling >= 70:
+    print("Action: High cooling required")
+else:
+    print("Action: Normal cooling")
