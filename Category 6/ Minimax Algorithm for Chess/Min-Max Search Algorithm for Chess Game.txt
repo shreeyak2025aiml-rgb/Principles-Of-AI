@@ -1,0 +1,36 @@
+# Minimax Algorithm for Chess (Game Tree)
+
+def minimax(node, depth, maximizing):
+    if depth == 0 or node not in tree:
+        return scores[node]
+
+    if maximizing:
+        best = -999
+        for child in tree[node]:
+            value = minimax(child, depth - 1, False)
+            best = max(best, value)
+        return best
+    else:
+        best = 999
+        for child in tree[node]:
+            value = minimax(child, depth - 1, True)
+            best = min(best, value)
+        return best
+
+
+tree = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F', 'G']
+}
+
+scores = {
+    'D': 3,
+    'E': 5,
+    'F': 2,
+    'G': 9
+}
+
+result = minimax('A', 2, True)
+
+print("Best score for MAX player:", result)

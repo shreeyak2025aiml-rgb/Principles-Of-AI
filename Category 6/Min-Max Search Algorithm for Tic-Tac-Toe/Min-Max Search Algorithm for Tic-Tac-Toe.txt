@@ -1,0 +1,93 @@
+# Minimax for Tic-Tac-Toe
+
+def check_winner(board):
+    wins = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+    ]
+
+    for a, b, c in wins:
+        if board[a] == board[b] == board[c] != " ":
+            return board[a]
+
+    if " " not in board:
+        return "Draw"
+
+    return None
+
+
+def minimax(board, is_max):
+    result = check_winner(board)
+
+    if result == "O":
+        return 1
+    if result == "X":
+        return -1
+    if result == "Draw":
+        return 0
+
+    if is_max:
+        best = -999
+
+        for i in range(9):
+            if board[i] == " ":
+                board[i] = "O"
+                best = max(best, minimax(board, False))
+                board[i] = " "
+
+        return best
+
+    else:
+        best = 999
+
+        for i in range(9):
+            if board[i] == " ":
+                board[i] = "X"
+                best = min(best, minimax(board, True))
+                board[i] = " "
+
+        return best
+
+
+board = [" "] * 9
+
+while check_winner(board) is None:
+
+    print("\nCurrent Board:")
+    for i in range(0, 9, 3):
+        print(board[i], "|", board[i+1], "|", board[i+2])
+
+    move = int(input("Enter your position (1-9): ")) - 1
+
+    if move < 0 or move > 8 or board[move] != " ":
+        print("Invalid move!")
+        continue
+
+    board[move] = "X"
+
+    if check_winner(board):
+        break
+
+    best_score = -999
+    best_move = None
+
+    for i in range(9):
+        if board[i] == " ":
+            board[i] = "O"
+            score = minimax(board, False)
+            board[i] = " "
+
+            if score > best_score:
+                best_score = score
+                best_move = i
+
+    if best_move is not None:
+        board[best_move] = "O"
+
+
+print("\nFinal Board:")
+for i in range(0, 9, 3):
+    print(board[i], "|", board[i+1], "|", board[i+2])
+
+print("Result:", check_winner(board))
